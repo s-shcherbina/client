@@ -1,0 +1,21 @@
+:host {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.small-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+small {
+  color: var(--error-color);
+}
+
+.error {
+  color: var(--error-color);
+  background: var(--hover-color);
+  padding: 30px;
+  border-radius: 8px;
+}

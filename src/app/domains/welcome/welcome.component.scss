@@ -1,0 +1,11 @@
+.info {
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  .info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}

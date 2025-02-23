@@ -1,0 +1,9 @@
+<div class="modal-overlay" isVisible (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h1>Modal Title</h1>
+
+    <h3>This is the content of the modal.</h3>
+
+    <button class="btn" (click)="closeModal()">Close</button>
+  </div>
+</div>

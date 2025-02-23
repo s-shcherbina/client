@@ -1,0 +1,127 @@
+<div class="auth">
+  <div class="auth-form">
+    @if(err().message){
+    <div class="error">
+      <h2>error status code: {{ err().statusCode }}</h2>
+      <h2>{{ err().message }}</h2>
+    </div>
+    }
+    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <h2>Sign Up</h2>
+      <div class="small-form">
+        <label class="control-label">
+          Name
+          <input
+            formControlName="name"
+            type="text"
+            placeholder="Enter name"
+            class="auth-input"
+          />
+        </label>
+        @if (registerForm.get('name')?.invalid &&
+        registerForm.get('name')?.touched) {
+        <div>
+          @if (registerForm.get('name')?.errors?.['required']) {
+          <small>Name is required.</small>
+          } @if (registerForm.get('name')?.errors?.['minlength']) {
+          <small>Minimum 2 characters required.</small>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="small-form">
+        <label class="control-label">
+          Email
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="Enter email"
+            class="auth-input"
+          />
+        </label>
+        @if (registerForm.get('email')?.invalid &&
+        registerForm.get('email')?.touched) {
+        <div>
+          @if (registerForm.value.email) { @if
+          (registerForm.get('email')?.errors?.['required']) {
+          <small>Email is required.</small>
+          } @if (registerForm.get('email')?.errors?.['pattern']) {
+          <small>Please enter a valid email.</small>}}
+        </div>
+        }
+      </div>
+
+      <div class="small-form">
+        <label class="control-label">
+          Password (example: <strong>1!qQ</strong> )
+          <input
+            formControlName="password"
+            type="password"
+            placeholder="Enter password"
+            class="auth-input"
+          />
+        </label>
+        @if (registerForm.get('password')?.invalid &&
+        registerForm.get('name')?.touched) {
+        <div>
+          @if (registerForm.get('password')?.errors?.['required'] ) {
+          <div><small>Password is required.</small></div>
+          }
+        </div>
+        } @if (registerForm.value.password) { @if
+        (registerForm.get('password')?.errors?.['minlength']) {
+        <div><small>Minimum 4 characters required.</small></div>
+        } @if (registerForm.get('password')?.errors?.['hasUpperCase']) {
+        <div><small>Password needs at least 1 uppercase letter.</small></div>
+        } @if (registerForm.get('password')?.errors?.['hasLowerCase']) {
+        <div><small>Password needs at least 1 lowercase letter.</small></div>
+        } @if (registerForm.get('password')?.errors?.['hasNumericChar']) {
+        <div><small>Password needs at least 1 number.</small></div>
+        } @if (registerForm.get('password')?.errors?.['hasSpecialChar']) {
+        <div><small>Password needs at least 1 special character.</small></div>
+        }}
+      </div>
+
+      <div class="small-form">
+        <label class="control-label">
+          Confirm password
+          <input
+            formControlName="confirmPassword"
+            type="password"
+            placeholder="Confirm password"
+            class="auth-input"
+          />
+        </label>
+        @if (registerForm.get('confirmPassword')?.invalid &&
+        registerForm.get('confirmPassword')?.touched ) {
+        <div>
+          @if (registerForm.get('confirmPassword')?.errors?.['mismatch']) {
+          <small>Passwords do not match.</small>
+          }
+        </div>
+        }
+      </div>
+      <button type="submit" class="btn btn-shadow">Sign Up</button>
+    </form>
+
+    <button class="btn btn-shadow" (click)="auth0login()">Auth0</button>
+  </div>
+</div>
+
+<div class="auth">
+  <nav>
+    <app-logo
+      [angularWidth]="angularWidth"
+      [nestjsWidth]="nestjsWidth"
+    ></app-logo>
+    <ul class="logo-nav">
+      <li>
+        <a routerLink="/auth/sign_in" class="menu-item bg">Sign in</a>
+      </li>
+      <li>
+        <a routerLink="/" class="menu-item bg">Welcome</a>
+      </li>
+    </ul>
+  </nav>
+</div>
