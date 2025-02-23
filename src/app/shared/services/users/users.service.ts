@@ -10,6 +10,6 @@ export class UsersService {
   http = inject(HttpClient);
 
   public getUsers() {
-    return this.http.get<IUsersResponse>(`${environment.API_URL}/users`);
+    return this.http.get<IUsersResponse>(`${environment.API_URL}users`);
   }
 }

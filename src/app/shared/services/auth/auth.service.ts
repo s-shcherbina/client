@@ -30,25 +30,25 @@ export class AuthService {
 
   public register(body: { name: string; email: string; password: string }) {
     return this.http
-      .post<ITokensResponse>(`${environment.API_URL}/auth/register`, body)
+      .post<ITokensResponse>(`${environment.API_URL}auth/register`, body)
       .pipe(tap((val) => this.storageService(val)));
   }
 
   public login(body: { email: string; password: string }) {
     return this.http
-      .post<ITokensResponse>(`${environment.API_URL}/auth/login`, body, {
+      .post<ITokensResponse>(`${environment.API_URL}auth/login`, body, {
         withCredentials: true,
       })
       .pipe(tap((val) => this.storageService(val)));
   }
 
   public getMe() {
-    return this.http.get<IUserResponse>(`${environment.API_URL}/auth/me`);
+    return this.http.get<IUserResponse>(`${environment.API_URL}auth/me`);
   }
 
   public refresh() {
     return this.http
-      .post<ITokensResponse>(`${environment.API_URL}/auth/refresh`, {
+      .post<ITokensResponse>(`${environment.API_URL}auth/refresh`, {
         refreshToken: localStorage.getItem('refreshToken'),
       })
       .pipe(
@@ -69,7 +69,7 @@ export class AuthService {
     });
     if (refreshToken) {
       localStorage.removeItem('refreshToken');
-      return this.http.post<string>(`${environment.API_URL}/auth/logout`, {
+      return this.http.post<string>(`${environment.API_URL}auth/logout`, {
         refreshToken,
       });
     }
