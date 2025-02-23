@@ -10,6 +10,12 @@ export class CheckHealthService {
   http = inject(HttpClient);
 
   getCheckHealth() {
-    return this.http.get<ICheckHealth>(`${environment.API_URL}`);
+    console.log(environment.API_URL);
+    console.log(environment.AUTH0_DOMAIN);
+    console.log(environment.AUTH0_CLIENT_ID);
+
+    return this.http.get<ICheckHealth>(
+      `https://interhip-server-965114150226.europe-west3.run.app`
+    );
   }
 }

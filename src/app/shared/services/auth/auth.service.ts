@@ -30,27 +30,39 @@ export class AuthService {
 
   public register(body: { name: string; email: string; password: string }) {
     return this.http
-      .post<ITokensResponse>(`${environment.API_URL}auth/register`, body)
+      .post<ITokensResponse>(
+        `https://interhip-server-965114150226.europe-west3.run.app/auth/register`,
+        body
+      )
       .pipe(tap((val) => this.storageService(val)));
   }
 
   public login(body: { email: string; password: string }) {
     return this.http
-      .post<ITokensResponse>(`${environment.API_URL}auth/login`, body, {
-        withCredentials: true,
-      })
+      .post<ITokensResponse>(
+        `https://interhip-server-965114150226.europe-west3.run.app/auth/login`,
+        body,
+        {
+          withCredentials: true,
+        }
+      )
       .pipe(tap((val) => this.storageService(val)));
   }
 
   public getMe() {
-    return this.http.get<IUserResponse>(`${environment.API_URL}auth/me`);
+    return this.http.get<IUserResponse>(
+      `https://interhip-server-965114150226.europe-west3.run.app/auth/me`
+    );
   }
 
   public refresh() {
     return this.http
-      .post<ITokensResponse>(`${environment.API_URL}auth/refresh`, {
-        refreshToken: localStorage.getItem('refreshToken'),
-      })
+      .post<ITokensResponse>(
+        `https://interhip-server-965114150226.europe-west3.run.app/auth/refresh`,
+        {
+          refreshToken: localStorage.getItem('refreshToken'),
+        }
+      )
       .pipe(
         tap((val) => this.storageService(val)),
         catchError((err) => {
@@ -69,9 +81,12 @@ export class AuthService {
     });
     if (refreshToken) {
       localStorage.removeItem('refreshToken');
-      return this.http.post<string>(`${environment.API_URL}auth/logout`, {
-        refreshToken,
-      });
+      return this.http.post<string>(
+        `https://interhip-server-965114150226.europe-west3.run.app/auth/logout`,
+        {
+          refreshToken,
+        }
+      );
     }
     return null;
   }

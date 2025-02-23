@@ -12,8 +12,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAuth0({
-      domain: environment.AUTH0_DOMAIN as string,
-      clientId: environment.AUTH0_CLIENT_ID as string,
+      domain: 'dev-qqr1um2mnzvr1ecv.us.auth0.com',
+      clientId: '4pyTHsfzWSRzpjo65Bau4SEl3Z2zPBvd',
+      // domain: environment.AUTH0_DOMAIN as string,
+      // clientId: environment.AUTH0_CLIENT_ID as string,
       authorizationParams: {
         redirect_uri: window.location.origin,
         scope: 'profile email',

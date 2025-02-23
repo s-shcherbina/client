@@ -10,6 +10,8 @@ export class UsersService {
   http = inject(HttpClient);
 
   public getUsers() {
-    return this.http.get<IUsersResponse>(`${environment.API_URL}users`);
+    return this.http.get<IUsersResponse>(
+      `https://interhip-server-965114150226.europe-west3.run.app/users`
+    );
   }
 }
