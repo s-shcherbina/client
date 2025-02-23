@@ -31,7 +31,7 @@ export class AuthService {
   public register(body: { name: string; email: string; password: string }) {
     return this.http
       .post<ITokensResponse>(
-        `https://interhip-server-965114150226.europe-west3.run.app/auth/register`,
+        `https://intership-backend-965114150226.europe-west10.run.app/auth/register`,
         body
       )
       .pipe(tap((val) => this.storageService(val)));
@@ -40,7 +40,7 @@ export class AuthService {
   public login(body: { email: string; password: string }) {
     return this.http
       .post<ITokensResponse>(
-        `https://interhip-server-965114150226.europe-west3.run.app/auth/login`,
+        `https://intership-backend-965114150226.europe-west10.run.app/auth/login`,
         body,
         {
           withCredentials: true,
@@ -51,14 +51,14 @@ export class AuthService {
 
   public getMe() {
     return this.http.get<IUserResponse>(
-      `https://interhip-server-965114150226.europe-west3.run.app/auth/me`
+      `https://intership-backend-965114150226.europe-west10.run.app/auth/me`
     );
   }
 
   public refresh() {
     return this.http
       .post<ITokensResponse>(
-        `https://interhip-server-965114150226.europe-west3.run.app/auth/refresh`,
+        `https://intership-backend-965114150226.europe-west10.run.app/auth/refresh`,
         {
           refreshToken: localStorage.getItem('refreshToken'),
         }
@@ -82,7 +82,7 @@ export class AuthService {
     if (refreshToken) {
       localStorage.removeItem('refreshToken');
       return this.http.post<string>(
-        `https://interhip-server-965114150226.europe-west3.run.app/auth/logout`,
+        `https://intership-backend-965114150226.europe-west10.run.app/auth/logout`,
         {
           refreshToken,
         }

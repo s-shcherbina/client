@@ -11,7 +11,7 @@ export class UsersService {
 
   public getUsers() {
     return this.http.get<IUsersResponse>(
-      `https://interhip-server-965114150226.europe-west3.run.app/users`
+      `https://intership-backend-965114150226.europe-west10.run.app/users`
     );
   }
 }

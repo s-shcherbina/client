@@ -15,7 +15,7 @@ export class CheckHealthService {
     console.log(environment.AUTH0_CLIENT_ID);
 
     return this.http.get<ICheckHealth>(
-      `https://interhip-server-965114150226.europe-west3.run.app`
+      `https://intership-backend-965114150226.europe-west10.run.app`
     );
   }
 }
