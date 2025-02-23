@@ -1,23 +1,15 @@
-FROM node22:alpine AS build
+FROM node:22-alpine AS build
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY . /usr/src/app
+
+RUN npm install -g @angular/cli
 
 RUN npm install
 
-COPY . .
+EXPOSE 4200
 
-RUN npm run build
-
-FROM nginx:alpine
-
-COPY nginx.conf /etc/nginx/nginx.conf
-
-COPY --from=build /app/dist/frontend/ideas/intership/browser /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
 
 
