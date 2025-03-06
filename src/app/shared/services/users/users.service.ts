@@ -22,26 +22,26 @@ export class UsersService {
 
   public getUsers() {
     return this.http.get<IUsersResponse>(
-      `https://meduzzen-backend-965114150226.europe-west10.run.app/users`
+      `https://meduzzen-backend-965114150226.europe-west10.run.app/users/`
     );
   }
 
   public update(body: Partial<IRegister>) {
     return this.http.patch<IBaseResponse>(
-      `https://meduzzen-backend-965114150226.europe-west10.run.app/users`,
+      `https://meduzzen-backend-965114150226.europe-west10.run.app/users/`,
       body
     );
   }
 
   public delete() {
     return this.http.delete<IBaseResponse>(
-      `https://meduzzen-backend-965114150226.europe-west10.run.app/users`
+      `https://meduzzen-backend-965114150226.europe-west10.run.app/users/`
     );
   }
 
   public getUserById(id: string) {
     return this.http.get<IUserResponse>(
-      `https://meduzzen-backend-965114150226.europe-west10.run.app/users/${id}`
+      `https://meduzzen-backend-965114150226.europe-west10.run.app/users/${id}/`
     );
   }
 }
