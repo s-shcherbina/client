@@ -1,14 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { UsersService } from '../../../shared/services/users/users.service';
-import { UserInfoComponent } from '../../../common-ui/user-info/user-info.component';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-user-profile',
-  imports: [UserInfoComponent],
+  imports: [],
   templateUrl: './user-profile.component.html',
-  styleUrl: './user-profile.component.scss',
+  styleUrl: './user-profile.component.scss'
 })
 export class UserProfileComponent {
-  public usersService = inject(UsersService);
-  public user? = this.usersService.userById;
+
 }

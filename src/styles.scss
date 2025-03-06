@@ -1,6 +1,3 @@
-/* Importing @ngxpert/hot-toast SCSS file. */
-@use "@ngxpert/hot-toast/styles";
-// @use "@ngxpert/hot-toast/src/styles/styles.scss";
 :root {
   --dark-color: #000000;
   --light-color: #ffffff;
@@ -44,10 +41,6 @@ body {
   width: 100%;
   margin-top: 10px;
   cursor: pointer;
-  &:hover {
-    color: var(--light-color);
-    border: 1px solid var(--light-color);
-  }
 }
 
 .btn-shadow {
@@ -80,14 +73,13 @@ body {
   background: var(--dark-color);
   color: var(--light-color);
   font-size: 18px;
-  width: 100%;
+  width: 25vw;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 30vw;
+  gap: 20px;
 }
 
 .menu-item {
@@ -123,27 +115,3 @@ body {
     background: var(--logo-color);
   }
 }
-
-.small-form {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-small {
-  color: var(--error-color);
-}
-
-.error {
-  color: var(--error-color);
-  background: var(--hover-color);
-  padding: 30px;
-  border-radius: 8px;
-}
-
-.w100 {
-  width: 100%;
-}
-
-/* Importing @ngxpert/hot-toast SCSS file. */
-@use '@ngxpert/hot-toast/styles';

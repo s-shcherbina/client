@@ -1,16 +1,33 @@
 <div class="user-card">
   @if(user) {
-  <app-user-info [user]="user"></app-user-info>
+  <div class="user-card__container">
+    @if(user.avatar) {
+    <img [src]="user.avatar" alt="avatar" class="user-card__avatar" />
+    } @else {
+    <img
+      src="assets/images/avatar.png"
+      alt="avatar"
+      class="user-card__avatar"
+    />
+    }
+    <div class="user-card__contacts">
+      <h2>{{ user.name }}</h2>
+
+      <div class="user-card__skills">
+        <h3>Contacts:</h3>
+        <strong>{{ user.email }}</strong>
+      </div>
+    </div>
+  </div>
 
   <div class="user-card__skills">
     <h3>Skills:</h3>
     <strong>{{ user.createdAt }} {{ user.updatedAt }}</strong>
   </div>
   <nav>
-    <a routerLink="user_profile" (click)="getUserById(user.id)"
-      ><button class="btn">{{ user.name }} profile</button></a
+    <a routerLink="user_profile" class="menu-item bg"
+      >{{ user.name }} profile</a
     >
-    <button class="btn">invite</button>
   </nav>
   }
 </div>

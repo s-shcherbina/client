@@ -3,6 +3,6 @@ import { CompanyProfileComponent } from './company-profile/company-profile.compo
 import { CompanyListComponent } from './company-list/company-list.component';
 
 export const CompaniesRoutes: Routes = [
-  { path: 'company_list/company_profile', component: CompanyProfileComponent },
+  { path: 'company_profile', component: CompanyProfileComponent },
   { path: 'company_list', component: CompanyListComponent },
 ];

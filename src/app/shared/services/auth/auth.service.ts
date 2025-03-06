@@ -3,16 +3,9 @@ import { Inject, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { environment } from '../../../../environtments/environtment';
-import {
-  ILogin,
-  IRegister,
-  ITokensResponse,
-  IUserInfo,
-  IUserResponse,
-} from '../../interfaces';
+import { ITokensResponse, IUserResponse } from '../../interfaces';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
-import { HotToastService } from '@ngxpert/hot-toast';
 
 @Injectable({
   providedIn: 'root',
@@ -22,12 +15,11 @@ export class AuthService {
   router = inject(Router);
 
   public isAuth = signal<boolean>(true);
-  public currentUser = signal({} as IUserInfo);
+  public currentUser = signal({} as IUserResponse);
 
   constructor(
     @Inject(DOCUMENT) public document: Document,
-    public auth: Auth0Service,
-    private toast: HotToastService
+    public auth: Auth0Service
   ) {}
 
   private storageService(val: ITokensResponse) {
@@ -36,34 +28,37 @@ export class AuthService {
     this.isAuth.set(true);
   }
 
-  public register(body: IRegister) {
+  public register(body: { name: string; email: string; password: string }) {
     return this.http
       .post<ITokensResponse>(
-        `https://meduzzen-backend-965114150226.europe-west10.run.app/auth/register/`,
+        `https://intership-backend-965114150226.europe-west10.run.app/auth/register`,
         body
       )
       .pipe(tap((val) => this.storageService(val)));
   }
 
-  public login(body: ILogin) {
+  public login(body: { email: string; password: string }) {
     return this.http
       .post<ITokensResponse>(
-        `https://meduzzen-backend-965114150226.europe-west10.run.app/auth/login/`,
-        body
+        `https://intership-backend-965114150226.europe-west10.run.app/auth/login`,
+        body,
+        {
+          withCredentials: true,
+        }
       )
       .pipe(tap((val) => this.storageService(val)));
   }
 
   public getMe() {
     return this.http.get<IUserResponse>(
-      `https://meduzzen-backend-965114150226.europe-west10.run.app/auth/me/`
+      `https://intership-backend-965114150226.europe-west10.run.app/auth/me`
     );
   }
 
   public refresh() {
     return this.http
       .post<ITokensResponse>(
-        `https://meduzzen-backend-965114150226.europe-west10.run.app/auth/refresh/`,
+        `https://intership-backend-965114150226.europe-west10.run.app/auth/refresh`,
         {
           refreshToken: localStorage.getItem('refreshToken'),
         }
@@ -71,7 +66,6 @@ export class AuthService {
       .pipe(
         tap((val) => this.storageService(val)),
         catchError((err) => {
-          this.toast.error(err.error.message ? err.error.message : 'ERROR');
           return throwError(() => this.logout());
         })
       );
@@ -81,14 +75,14 @@ export class AuthService {
     const refreshToken = localStorage.getItem('refreshToken');
     localStorage.removeItem('token');
     this.isAuth.set(false);
-    this.currentUser.set({} as IUserInfo);
+    this.currentUser.set({} as IUserResponse);
     this.auth.logout({
       logoutParams: { returnTo: document.location.origin },
     });
     if (refreshToken) {
       localStorage.removeItem('refreshToken');
       return this.http.post<string>(
-        `https://meduzzen-backend-965114150226.europe-west10.run.app/auth/logout/`,
+        `https://intership-backend-965114150226.europe-west10.run.app/auth/logout`,
         {
           refreshToken,
         }

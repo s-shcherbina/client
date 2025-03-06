@@ -3,8 +3,6 @@ import { CheckHealthService } from '../../shared/services/check-health/check-hea
 import { AuthService } from '../../shared/services/auth/auth.service';
 import { ICheckHealth } from '../../shared/interfaces';
 import { CommonModule } from '@angular/common';
-import { catchError, throwError } from 'rxjs';
-import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-welcome',
@@ -19,18 +17,9 @@ export class WelcomeComponent {
   public checkHealth = signal({} as ICheckHealth);
   public currentUser = this.authService.currentUser;
 
-  constructor(private toast: HotToastService) {
-    this.checkHealthService
-      .getCheckHealth()
-      .pipe(
-        catchError((err) => {
-          return throwError(() => {
-            this.toast.error(err.error.message ? err.error.message : 'ERROR');
-          });
-        })
-      )
-      .subscribe((val) => {
-        this.checkHealth.set(val);
-      });
+  constructor() {
+    this.checkHealthService.getCheckHealth().subscribe((val) => {
+      this.checkHealth.set(val);
+    });
   }
 }

@@ -22,10 +22,18 @@ export const routes: Routes = [
             (c) => c.AboutComponent
           ),
       },
+      // {
+      //   path: 'users',
+      //   loadChildren: () =>
+      //     import('./domains/users/users.routes').then((c) => c.UsersRoutes),
+      //   canActivate: [authorizedGuard],
+      // },
       {
         path: 'users',
-        loadChildren: () =>
-          import('./domains/users/users.routes').then((c) => c.UsersRoutes),
+        loadComponent: () =>
+          import('./domains/users/users-list/users-list.component').then(
+            (c) => c.UserListComponent
+          ),
         canActivate: [authorizedGuard],
       },
       {
