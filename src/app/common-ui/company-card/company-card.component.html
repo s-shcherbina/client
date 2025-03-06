@@ -1,0 +1,31 @@
+<div class="company-card">
+  @if(company) {
+  <div style="display: flex; justify-content: space-between">
+    <h2>{{ company.title }}</h2>
+    @if (!company.visibility) {<strong style="color: var(--primary-color)"
+      >Invisible</strong
+    >}
+  </div>
+  <div class="company-card__description">
+    <strong>{{ company.description }}</strong>
+  </div>
+  <div class="owner-info">
+    @if (company.owner.avatar) {
+    <img [src]="company.owner.avatar" alt="avatar" class="avatar" />
+    } @else {
+    <img src="assets/images/avatar.png" alt="avatar" class="avatar" />
+    }
+    <div class="user-data">
+      <strong>Owner:</strong>
+      <strong>{{ company.owner.name }}</strong>
+    </div>
+  </div>
+  <strong>Contacts: {{ company.owner.email }}</strong>
+  <nav>
+    <a routerLink="company_profile" (click)="getCompanyById(company.id)"
+      ><button class="btn">{{ company.title }} profile</button></a
+    >
+    <button class="btn">request to join</button>
+  </nav>
+  }
+</div>

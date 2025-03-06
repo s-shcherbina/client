@@ -1,1 +1,28 @@
-<p>company-profile works!</p>
+@if (company && company().owner && company().owner.id === currentUser().id) {
+<div style="display: flex">
+  <button class="btn" (click)="delete()">Сompany members</button>
+  <button class="btn" (click)="delete()">Invited to the company</button>
+  <button class="btn" (click)="delete()">Membership requests</button>
+  <button class="btn" (click)="delete()">Other users</button>
+  <button class="btn" (click)="showModal()">Edit company info</button>
+  <button class="btn bg-error" (click)="delete()">Delete company</button>
+</div>
+} @if (company && company() && company().owner) {
+<div class="company-profile__container">
+  <h1>{{ company().title }}</h1>
+
+  <h3>{{ company().description }}</h3>
+
+  <h3>
+    {{ company().title }} is @if (company().visibility) {visible} @else
+    {invisible} for all authorized users
+  </h3>
+
+  <h3>Owner:</h3>
+  <app-user-info [user]="company().owner"></app-user-info>
+</div>
+@if (isVisible) {<app-edit-company
+  (close)="closeModal()"
+  [companyId]="company().id"
+></app-edit-company
+>}}

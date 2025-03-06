@@ -1,11 +1,5 @@
 <div class="auth">
   <div class="auth-form">
-    @if(err().message){
-    <div class="error">
-      <h2>error status code: {{ err().statusCode }}</h2>
-      <h2>{{ err().message }}</h2>
-    </div>
-    }
     <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <h2>Sign In</h2>
       <div class="small-form">
@@ -18,10 +12,10 @@
             class="auth-input"
           />
         </label>
-        @if (loginForm.value.email) { @if
-        (loginForm.get('email')?.errors?.['required']) {
+        @if(loginForm.get('email')?.errors?.['required']) {
         <small>Email is required.</small>
-        } @if (loginForm.get('email')?.errors?.['pattern']) {
+        } @if (loginForm.value.email) { @if
+        (loginForm.get('email')?.errors?.['pattern']) {
         <small>Please enter a valid email.</small>}}
       </div>
       <div class="small-form">
@@ -34,21 +28,17 @@
             class="auth-input"
           />
         </label>
-        @if (loginForm.value.password) { @if
-        (loginForm.get('password')?.errors?.['required'] ) {
-        <div><small>Password is required.</small></div>
-        } @if (loginForm.get('password')?.errors?.['minlength']) {
-        <div><small>Minimum 4 characters required.</small></div>
-        } @if (loginForm.get('password')?.errors?.['hasUpperCase']) {
-        <div><small>Password needs at least 1 uppercase letter.</small></div>
-        } @if (loginForm.get('password')?.errors?.['hasLowerCase']) {
-        <div><small>Password needs at least 1 lowercase letter.</small></div>
-        } @if (loginForm.get('password')?.errors?.['hasNumericChar']) {
-        <div><small>Password needs at least 1 number.</small></div>
-        } @if (loginForm.get('password')?.errors?.['hasSpecialChar']) {
-        <div><small>Password needs at least 1 special character.</small></div>
+        @if(loginForm.get('password')?.errors?.['required']) {
+        <small>Password is required.</small> } @if (loginForm.value.password){
+        @for (item of passwordErrors; track item) {
+        <div class="small-form">
+          @if (loginForm.get('password')?.errors?.[item.error]) {
+          <small>{{ item.message }}</small
+          >}
+        </div>
         }}
       </div>
+
       <button type="submit" class="btn btn-shadow">Sign In</button>
     </form>
     <button class="btn btn-shadow" (click)="auth0login()">Auth0</button>

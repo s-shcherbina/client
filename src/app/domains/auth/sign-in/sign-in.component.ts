@@ -11,6 +11,9 @@ import { LogoComponent } from '../../../common-ui/logo/logo.component';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { catchError, throwError } from 'rxjs';
 import PasswordValidator from '../../../shared/validators/password.validator';
+import { IPasswordValidator } from '../../../shared/interfaces';
+import { passwordErrors } from '../../../shared/moks';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-sign-in',
@@ -22,14 +25,17 @@ export class SignInComponent {
   public angularWidth = 160;
   public nestjsWidth = 200;
 
-  public err = signal({} as any);
-
   public authService = inject(AuthService);
   public router: Router = inject(Router);
 
   public loginForm: FormGroup;
+  public passwordErrors: IPasswordValidator[] = passwordErrors;
 
-  constructor(public auth: Auth0Service, private fb: FormBuilder) {
+  constructor(
+    public auth: Auth0Service,
+    private fb: FormBuilder,
+    private toast: HotToastService
+  ) {
     this.loginForm = this.fb.group({
       email: [
         '',
@@ -49,6 +55,10 @@ export class SignInComponent {
     });
   }
 
+  getErrors() {
+    return this.loginForm.get('password')?.errors;
+  }
+
   auth0login() {
     this.auth.loginWithRedirect();
     this.router.navigate(['']);
@@ -61,7 +71,7 @@ export class SignInComponent {
         .pipe(
           catchError((err) => {
             return throwError(() => {
-              this.err.set(err.error);
+              this.toast.error(err.error.message ? err.error.message : 'ERROR');
             });
           })
         )

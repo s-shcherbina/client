@@ -11,6 +11,9 @@ import PasswordValidator from '../../../shared/validators/password.validator';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { catchError, throwError } from 'rxjs';
+import { IPasswordValidator } from '../../../shared/interfaces';
+import { passwordErrors } from '../../../shared/moks';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-sign-up',
@@ -22,14 +25,17 @@ export class SignUpComponent {
   public angularWidth = 160;
   public nestjsWidth = 200;
 
-  public err = signal({} as any);
-
   public authService = inject(AuthService);
   public router: Router = inject(Router);
 
   public registerForm: FormGroup;
+  public passwordErrors: IPasswordValidator[] = passwordErrors;
 
-  constructor(public auth: Auth0Service, private fb: FormBuilder) {
+  constructor(
+    public auth: Auth0Service,
+    private fb: FormBuilder,
+    private toast: HotToastService
+  ) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: [
@@ -61,7 +67,7 @@ export class SignUpComponent {
         .pipe(
           catchError((err) => {
             return throwError(() => {
-              this.err.set(err.error);
+              this.toast.error(err.error.message ? err.error.message : 'ERROR');
             });
           })
         )

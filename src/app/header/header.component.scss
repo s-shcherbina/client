@@ -20,6 +20,16 @@
   list-style: none;
 }
 
+.edit {
+  cursor: pointer;
+  &:hover,
+  &:focus-visible {
+    background: var(--hover-color);
+    color: var(--primary-color);
+    scale: 1.01;
+  }
+}
+
 .user-data {
   display: flex;
   flex-direction: column;

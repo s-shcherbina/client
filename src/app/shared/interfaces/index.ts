@@ -9,6 +9,16 @@ export interface ICheckHealth extends IBaseResponse {
   detail: 'ok';
 }
 
+export interface ILogin {
+  email: string;
+  password: string;
+}
+
+export interface IRegister extends ILogin {
+  name: string;
+  avatar?: string;
+}
+
 export interface IUserInfo {
   id: string;
   name: string;
@@ -34,4 +44,30 @@ export interface IUsersResponse extends IBaseResponse {
 
 export interface IUserResponse extends IBaseResponse {
   detail: IUserInfo;
+}
+
+export interface IPasswordValidator {
+  error: string;
+  message: string;
+}
+
+export interface ICompany {
+  title: string;
+  description: string;
+  visibility: boolean;
+}
+export interface ICompanyInfo extends ICompany {
+  id: string;
+  owner: IUserInfo;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+}
+
+export interface ICompanyResponse extends IBaseResponse {
+  detail: ICompanyInfo;
+}
+
+export interface ICompaniesResponse extends IBaseResponse {
+  detail: ICompanyInfo[];
 }

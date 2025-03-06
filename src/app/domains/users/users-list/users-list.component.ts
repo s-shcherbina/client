@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
-import { IUsersResponse } from '../../../shared/interfaces/index';
+import { IUserInfo } from '../../../shared/interfaces/index';
 import { UsersService } from '../../../shared/services/users/users.service';
 import { UserCardComponent } from '../../../common-ui/user-card/user-card.component';
 import { AuthService } from '../../../shared/services/auth/auth.service';
-import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-user-list',
@@ -14,14 +15,24 @@ import { Router } from '@angular/router';
 export class UserListComponent {
   public authService = inject(AuthService);
   public usersService = inject(UsersService);
-  public router: Router = inject(Router);
 
-  public users = signal({} as IUsersResponse);
+  public users = signal([] as IUserInfo[]);
+
+  constructor(private toast: HotToastService) {}
 
   public ngOnInit() {
     if (this.authService.isAuth())
-      this.usersService.getUsers().subscribe((val) => {
-        this.users.set(val as IUsersResponse);
-      });
+      this.usersService
+        .getUsers()
+        .pipe(
+          catchError((err) => {
+            return throwError(() => {
+              this.toast.error(err.error.message ? err.error.message : 'ERROR');
+            });
+          })
+        )
+        .subscribe((val) => {
+          this.users.set(val.detail as IUserInfo[]);
+        });
   }
 }

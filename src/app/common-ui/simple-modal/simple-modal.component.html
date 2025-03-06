@@ -1,9 +1,183 @@
-<div class="modal-overlay" isVisible (click)="closeModal()">
+<div class="modal-overlay" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
-    <h1>Modal Title</h1>
+    <div class="close-btn__container">
+      <button class="close-btn close-primary" (click)="closeModal()">X</button>
+    </div>
 
-    <h3>This is the content of the modal.</h3>
+    @if (user) {<app-user-info [user]="user"></app-user-info>} @if
+    (!edit){<button
+      class="btn mt15"
+      [disabled]="create || change"
+      (click)="editVisible()"
+    >
+      Edit account</button
+    >} @if (edit) {
+    <div class="form-container">
+      <button class="close-btn close-secondary" (click)="editVisible()">
+        X
+      </button>
+      <form
+        class="auth-form w100"
+        [formGroup]="editForm"
+        (ngSubmit)="onEditSubmit()"
+      >
+        <div class="small-form">
+          <label class="control-label">
+            Name
+            <input
+              formControlName="name"
+              placeholder="Enter new name"
+              class="auth-input"
+              [value]="user?.name"
+            />
+          </label>
+          @if (editForm.value.name) { @if
+          (editForm.get('name')?.errors?.['minlength']) {
+          <small>Minimum 2 characters required.</small>}}
+        </div>
 
-    <button class="btn" (click)="closeModal()">Close</button>
+        <div class="small-form">
+          <label class="control-label">
+            Avatar url
+            <input
+              formControlName="avatar"
+              placeholder="Enter new url"
+              class="auth-input"
+              [value]="user?.avatar"
+            />
+          </label>
+          @if (editForm.value.avatar) { @if
+          (editForm.get('avatar')?.errors?.['minlength']) {
+          <small>Please enter a valid url.</small>}}
+        </div>
+        <button class="btn" type="submit">Submit</button>
+      </form>
+    </div>
+
+    }@if (!change) {
+    <button class="btn" [disabled]="edit || create" (click)="passwordVisible()">
+      Change password</button
+    >} @if (change) {
+    <div class="form-container">
+      <button class="close-btn close-secondary" (click)="passwordVisible()">
+        X
+      </button>
+      <form
+        class="auth-form w100"
+        [formGroup]="passwordForm"
+        (ngSubmit)="onPasswordSubmit()"
+      >
+        <div class="small-form">
+          <label class="control-label">
+            Password
+            <input
+              formControlName="password"
+              type="password"
+              placeholder="Enter new password"
+              class="auth-input"
+            />
+          </label>
+          @if( passwordForm.get('password')?.errors?.['required']) {
+          <small>Password is required.</small>
+          } @if (passwordForm.value.password) {@for (item of passwordErrors;
+          track item) { @if (passwordForm.get('password')?.errors?.[item.error])
+          {
+          <div>
+            <small>{{ item.message }}</small>
+          </div>
+          }}}
+        </div>
+
+        <div class="small-form">
+          <label class="control-label">
+            Confirm password
+            <input
+              formControlName="confirmPassword"
+              type="password"
+              placeholder="Confirm new password"
+              class="auth-input"
+            />
+          </label>
+          @if( passwordForm.get('confirmPassword')?.errors?.['required']) {
+          <small>Confirm password is required</small>
+          } @if (passwordForm.value.confirmPassword) {@if
+          (passwordForm.get('confirmPassword')?.errors?.['mismatch']) {
+          <small>Passwords do not match</small>
+          }}
+        </div>
+        <button class="btn" type="submit">Submit</button>
+      </form>
+    </div>
+    } @if (!create) {
+    <button class="btn" [disabled]="edit || change" (click)="companyVisible()">
+      Create company</button
+    >} @if (create) {
+    <div class="form-container">
+      <button class="close-btn close-secondary" (click)="companyVisible()">
+        X
+      </button>
+      <form
+        class="auth-form w100"
+        [formGroup]="companyForm"
+        (ngSubmit)="onCompanySubmit()"
+      >
+        <div class="small-form">
+          <label class="control-label">
+            Title
+            <input
+              formControlName="title"
+              type="text"
+              placeholder="Enter title"
+              class="auth-input"
+            />
+          </label>
+          @if(!companyForm.value.title ||
+          companyForm.get('title')?.errors?.['required']) {
+          <small>Title is required.</small>
+          } @if (companyForm.value.title) { @if
+          (companyForm.get('title')?.errors?.['minlength']) {
+          <small>Minimum 2 characters required.</small>}}
+        </div>
+
+        <div class="small-form">
+          <label class="control-label">
+            Description
+            <input
+              formControlName="description"
+              type="text"
+              placeholder="Describe company"
+              class="auth-input"
+            />
+          </label>
+          @if(!companyForm.value.description ||
+          companyForm.get('description')?.errors?.['required']) {
+          <small>Description is required.</small>
+          } @if (companyForm.value.description) { @if
+          (companyForm.get('description')?.errors?.['minlength']) {
+          <small>Minimum 8 characters required.</small>}}
+        </div>
+
+        <label class="control-label">
+          Allow viewing to all authorized users
+          <input
+            formControlName="visibility"
+            type="checkbox"
+            checked
+            class="checkbox-size"
+          />
+        </label>
+        <button class="btn" type="submit">Submit</button>
+      </form>
+    </div>
+    }
+
+    <button class="btn" (click)="createdCompanies()">Created companies</button>
+    <button class="btn" (click)="createdCompanies()">
+      Invitations to companies
+    </button>
+    <button class="btn" (click)="createdCompanies()">
+      Membership applications
+    </button>
+    <button class="btn bg-error" (click)="delete()">Delete account</button>
   </div>
 </div>

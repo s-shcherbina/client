@@ -6,23 +6,6 @@
   flex-direction: column;
   gap: 20px;
 }
-.user-card__container {
-  display: flex;
-  gap: 20px;
-}
-
-.user-card__avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.user-card__contacts {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
 
 .user-card__skills {
   font-size: 18;
