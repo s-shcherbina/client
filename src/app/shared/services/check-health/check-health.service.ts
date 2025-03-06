@@ -11,7 +11,7 @@ export class CheckHealthService {
 
   getCheckHealth() {
     return this.http.get<ICheckHealth>(
-      `https://intership-backend-965114150226.europe-west10.run.app`
+      `https://intership-backend-965114150226.europe-west10.run.app/`
     );
   }
 }
