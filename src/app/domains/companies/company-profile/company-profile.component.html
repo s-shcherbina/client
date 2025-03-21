@@ -1,1 +1,90 @@
-<p>company-profile works!</p>
+@if (company() && company().owner) { @if (company().owner.id ===
+currentUser().id) {
+<div class="company-profile__header">
+  <button class="btn" (click)="getMembers(company().id)">
+    Сompany members
+  </button>
+  <button class="btn" (click)="getInvitedUsers(company().id)">
+    Invited to the company
+  </button>
+  <button class="btn" (click)="getCandidates(company().id)">
+    Membership requests
+  </button>
+  <button class="btn" (click)="allUsers()">All users</button>
+  <button class="btn" (click)="showModal()">Edit company info</button>
+  <button class="btn bg-error" (click)="showConfirm()">Delete company</button>
+</div>
+}
+
+<div class="company-profile__container">
+  <h1>{{ company().title }}</h1>
+
+  <h3>{{ company().description }}</h3>
+
+  <h3>
+    {{ company().title }} is @if (company().visibility) {visible} @else
+    {invisible} for all authorized users
+  </h3>
+
+  <h3>Owner:</h3>
+  <app-user-info [user]="company().owner"></app-user-info>
+</div>
+
+@if(users() && users().length && company().owner.id === currentUser().id) {
+<div class="close-btn__container">
+  <button class="close-btn close-primary" (click)="hideUsers()">
+    Hide users X
+  </button>
+</div>
+<div class="users-list">
+  @for (user of users(); track user.id) { @if (currentUser().id !== user.id) {
+  <app-user-card [user]="user" [company]="company()"></app-user-card>}}
+</div>
+}
+
+<div style="display: flex; margin: 30px">
+  @if (memberAccess) {
+  <button
+    class="menu-item"
+    style="max-width: 400px"
+    (click)="availableQuizzes(company().id)"
+  >
+    All available quizzes
+  </button>
+  } @if (roleAccess) {
+  <button
+    class="menu-item"
+    style="max-width: 300px"
+    (click)="newQuiz(company())"
+  >
+    Create a new quiz
+  </button>
+  <button
+    class="menu-item"
+    style="max-width: 500px"
+    (click)="allQuizzes(company())"
+  >
+    All quizzes (for testing and editing)</button
+  >}
+</div>
+
+@if(quizzes() && quizzes().length) {
+<div class="close-btn__container">
+  <button class="close-btn close-primary" (click)="hideQuizzes()">
+    Hide quizzes X
+  </button>
+</div>
+<div class="quiz-list">
+  @for (quiz of quizzes(); track quiz.id) {
+  <app-quiz-card [quiz]="quiz"></app-quiz-card>}
+</div>
+} } @if (isVisible) {<app-edit-company
+  (close)="closeModal()"
+  [companyId]="company().id"
+></app-edit-company
+>} @if (isConfirm) {<app-confirm-action
+  (close)="closeConfirm()"
+  (confirm)="delete()"
+  [text]="'delete company'"
+></app-confirm-action>
+>}

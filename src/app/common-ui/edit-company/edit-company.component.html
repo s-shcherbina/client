@@ -1,0 +1,56 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h1>Updating company</h1>
+    <div class="close-btn__container">
+      <button class="close-btn close-primary" (click)="closeModal()">X</button>
+    </div>
+    <div class="form-container">
+      <form
+        class="auth-form w100"
+        [formGroup]="companyForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <div class="small-form">
+          <label class="control-label">
+            Title
+            <input
+              formControlName="title"
+              type="text"
+              placeholder="Enter title"
+              class="auth-input"
+            />
+          </label>
+          @if (companyForm.value.title) { @if
+          (companyForm.get('title')?.errors?.['minlength']) {
+          <small>Minimum 2 characters required.</small>}}
+        </div>
+
+        <div class="small-form">
+          <label class="control-label">
+            Description
+            <input
+              formControlName="description"
+              type="text"
+              placeholder="Describe company"
+              class="auth-input"
+            />
+          </label>
+          @if (companyForm.value.description) { @if
+          (companyForm.get('description')?.errors?.['minlength']) {
+          <small>Minimum 8 characters required.</small>}}
+        </div>
+
+        <label class="control-label">
+          Allow viewing to all authorized users
+          <input
+            formControlName="visibility"
+            type="checkbox"
+            checked
+            class="checkbox-size"
+          />
+        </label>
+        <button class="btn" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="user-card__container">
+  @if(user.avatar) {
+  <img [src]="user.avatar" alt="avatar" class="user-card__avatar" />
+  } @else {
+  <img src="assets/images/avatar.png" alt="avatar" class="user-card__avatar" />
+  }
+  <div class="user-card__info">
+    <h2>{{ user.name }}</h2>
+
+    <div>
+      <h3>Contacts:</h3>
+      <strong>{{ user.email }}</strong>
+    </div>
+  </div>
+</div>

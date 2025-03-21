@@ -1,0 +1,14 @@
+.header {
+  position: sticky;
+  top: 70px;
+  z-index: 2;
+  display: flex;
+  background: var(--dark-color);
+}
+.company-list {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+  overflow: auto;
+}

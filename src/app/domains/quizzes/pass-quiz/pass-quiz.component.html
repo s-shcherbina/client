@@ -1,0 +1,87 @@
+<div
+  style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin-top: 30px;
+  "
+>
+  <h1>{{ quizInfo().title }}</h1>
+  <h2>{{ quizInfo().description }}</h2>
+  @if (index() < elems().length) {
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    "
+  >
+    <h1>{{ elems()[index()].quest.question }}</h1>
+    <div style="display: flex; flex-direction: column; gap: 20px; width: 100%">
+      @for (answer of elems()[index()].answers; track answer.id) {
+
+      <label style="display: flex; align-items: center; gap: 20px">
+        <input
+          type="radio"
+          name="color"
+          value="{{ answer.correct }}"
+          (change)="changeFunc(answer.correct)"
+          style="width: 24px; height: 24px"
+        />
+        <span style="font-size: 24px">{{ answer.text }}</span>
+      </label>
+      }
+    </div>
+    @if (visible()) {<button class="menu-item" (click)="updateIndex()">
+      <h3>Next</h3></button
+    >}
+  </div>
+  } @else { @if (!elems().length) {
+  <button
+    class="menu-item"
+    (click)="getElements(quizInfo().id, quizInfo().frequency)"
+  >
+    <h3>Start</h3></button
+  >} @else { @if (!visibleResults()) {
+  <button class="menu-item" (click)="quizResult()">
+    <h3>View the results</h3></button
+  >} @else {
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    "
+  >
+    <h2>Quiz result</h2>
+    <h3>questions: {{ quizResults().questions }}</h3>
+    <h3>right answers: {{ quizResults().correctAnswers }}</h3>
+    <h3>
+      rating: {{ quizResults().correctAnswers / quizResults().questions }}
+    </h3>
+
+    <h2>All company's quizzes</h2>
+    <h3>questions: {{ quizResults().memberQuestions }}</h3>
+    <h3>right answers: {{ quizResults().memberCorrectAnswers }}</h3>
+    <h3>
+      rating:
+      {{ quizResults().memberCorrectAnswers / quizResults().memberQuestions }}
+    </h3>
+
+    <h2>All system's quizzes</h2>
+    <h3>questions: {{ quizResults().userQuestions }}</h3>
+    <h3>right answers: {{ quizResults().userCorrectAnswers }}</h3>
+    <h3>
+      rating:
+      {{ quizResults().userCorrectAnswers / quizResults().userQuestions }}
+    </h3>
+
+    <button class="menu-item" (click)="goBack()">
+      <h2>Finish the quiz</h2>
+    </button>
+  </div>
+  } }}
+</div>

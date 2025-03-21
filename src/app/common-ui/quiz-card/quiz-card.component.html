@@ -1,0 +1,28 @@
+@if (quiz) {
+<div class="quiz-card">
+  <h2>{{ quiz.title }}</h2>
+  <div class="company-card__description">
+    <strong>{{ quiz.description }}</strong>
+  </div>
+  <div class="company-card__description">
+    <strong
+      >Onсe every {{ quiz.frequency }} @if ( quiz.frequency > 1) {days} @else
+      {day}</strong
+    >
+  </div>
+
+  <div>
+    <button class="btn" (click)="takeQuiz(quiz.id)" (click)="editQuiz(quiz.id)">
+      Take the quiz
+    </button>
+    @if (roleAccess) {
+    <button class="btn" (click)="editQuiz(quiz.id)">Edit quiz</button>
+    <button class="btn bg-error" (click)="showConfirm()">Delete quiz</button>}
+  </div>
+</div>
+@if (isConfirm) {<app-confirm-action
+  (close)="closeConfirm()"
+  (confirm)="delete(quiz.id)"
+  [text]="'connfirm deleting quiz'"
+></app-confirm-action>
+}}

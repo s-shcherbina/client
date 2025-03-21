@@ -1,0 +1,43 @@
+<div class="modal-overlay" (click)="$event.stopPropagation()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="close-btn__container">
+      <button class="close-btn close-primary" (click)="closeQuestion()">
+        X
+      </button>
+    </div>
+    <h1>Quiz question</h1>
+    <div class="form-container">
+      <form
+        class="auth-form w100"
+        [formGroup]="questionForm"
+        (ngSubmit)="onQuestionSubmit($event)"
+      >
+        <div class="small-form">
+          <label class="control-label"
+            >Question
+            <input
+              formControlName="question"
+              type="text"
+              placeholder="Enter question"
+              size="10"
+              oninput="this.size=Math.max(this.value.length, 10)"
+              class="quiz-input"
+            />
+          </label>
+          @if (questionForm.get('question')?.errors?.['required']) {
+          <small>Question is required</small>} @if (questionForm.value.question)
+          { @if (questionForm.get('question')?.errors?.['minlength']) {
+          <small>Minimum 4 characters required.</small>}}
+        </div>
+        <button
+          class="btn"
+          (click)="closeQuestion()"
+          type="submit"
+          style="width: 300px"
+        >
+          Confirm
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

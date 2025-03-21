@@ -1,0 +1,13 @@
+<div class="modal-overlay" (click)="closeConfirm()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="close-btn__container">
+      <button class="close-btn close-primary" (click)="closeConfirm()">
+        X
+      </button>
+    </div>
+    <h2>Confirm {{ text }}</h2>
+    <button class="btn btn-hover bg-error" (click)="confirmFunc()">
+      Confirm {{ text }}
+    </button>
+  </div>
+</div>

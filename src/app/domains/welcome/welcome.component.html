@@ -9,15 +9,15 @@
   </div>
 
   <div class="info-block">
-    @if (currentUser().detail) {
+    @if (currentUser()) {
     <h2>User-info:</h2>
 
     <h3>avatar :</h3>
     <p>
-      {{ currentUser().detail.avatar }}
+      {{ currentUser().avatar }}
     </p>
-    <h3>name : {{ currentUser().detail.name }}</h3>
-    <h3>email : {{ currentUser().detail.email }}</h3>
+    <h3>name : {{ currentUser().name }}</h3>
+    <h3>email : {{ currentUser().email }}</h3>
     }
   </div>
 </div>

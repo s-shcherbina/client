@@ -1,33 +1,62 @@
+@if (user) {
 <div class="user-card">
-  @if(user) {
-  <div class="user-card__container">
-    @if(user.avatar) {
-    <img [src]="user.avatar" alt="avatar" class="user-card__avatar" />
-    } @else {
-    <img
-      src="assets/images/avatar.png"
-      alt="avatar"
-      class="user-card__avatar"
-    />
-    }
-    <div class="user-card__contacts">
-      <h2>{{ user.name }}</h2>
-
-      <div class="user-card__skills">
-        <h3>Contacts:</h3>
-        <strong>{{ user.email }}</strong>
-      </div>
-    </div>
-  </div>
+  <app-user-info [user]="user"></app-user-info>
 
   <div class="user-card__skills">
     <h3>Skills:</h3>
     <strong>{{ user.createdAt }} {{ user.updatedAt }}</strong>
   </div>
-  <nav>
-    <a routerLink="user_profile" class="menu-item bg"
-      >{{ user.name }} profile</a
+  <div>
+    <button (click)="getUserById(user.id)" class="btn">
+      {{ user.name }} profile
+    </button>
+
+    @if (company) { @if(!user.action) {<button
+      class="btn"
+      (click)="createInvitation(company, user)"
     >
-  </nav>
+      Send invitation</button
+    >} @else { @if (user.action.ownerVerdict && !user.action.userVerdict) {
+    <button class="btn btn-hover" (click)="showCancel()">
+      Cancel invitation
+    </button>
+
+    } @if (!user.action.ownerVerdict && user.action.userVerdict) {
+    <button class="btn btn-hover" (click)="acceptRequest(user.action.id)">
+      Accept request to join
+    </button>
+    <button class="btn btn-hover" (click)="showDecline()">Decline</button>
+
+    } @if (user.action.ownerVerdict && user.action.userVerdict) {
+    <button class="btn" (click)="showConfirm()">Exclude</button>
+
+    @if (user.action.role && user.action.role < 500) {
+    <button class="btn" (click)="addAdminRole(user.action.id)">
+      Add admin role</button
+    >} @else {<button class="btn" (click)="showAdmin()">
+      Remove admin role</button
+    >} }}}
+  </div>
+  @if (isConfirm) {<app-confirm-action
+    (close)="closeConfirm()"
+    (confirm)="exclude(user.action!.id)"
+    [text]="'exclude from company'"
+  ></app-confirm-action>
+  } @if (isCancel) {<app-confirm-action
+    (close)="closeCancel()"
+    (confirm)="removeAction(user.action!.id)"
+    [text]="'cancel invitation to join company'"
+  ></app-confirm-action
+  >} @if (isDecline) {<app-confirm-action
+    (close)="closeDecline()"
+    (confirm)="removeAction(user.action!.id)"
+    [text]="'decline request to join company '"
+  ></app-confirm-action>
+  } @if (isAdmin) {<app-confirm-action
+    (close)="closeAdmin()"
+    (confirm)="removeAdminRole(user.action!.id)"
+    [text]="'remove admin role'"
+  ></app-confirm-action>
   }
 </div>
+}

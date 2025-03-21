@@ -1,0 +1,113 @@
+<div
+  style="
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px;
+    padding: 10px;
+  "
+>
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      border: 1px solid;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 33vw;
+      margin: 10px;
+    "
+  >
+    <h2>Quiz info</h2>
+    <h3>title: {{ quizInfo().title }}</h3>
+    <h3>description: {{ quizInfo().description }}</h3>
+    <h3>
+      frecuency: {{ quizInfo().frequency }} @if ( quizInfo().frequency > 1)
+      {days} @else {day}
+    </h3>
+    <div>
+      <button class="btn" (click)="showInfo()">Edit info</button>
+      <button class="btn" (click)="showElements(quizInfo().id)">
+        Show elements
+      </button>
+      <button class="btn" (click)="addElement()">Add element</button>
+      <button class="btn bg-error" (click)="showConfirm('quiz', quizInfo().id)">
+        Delete quiz
+      </button>
+    </div>
+  </div>
+
+  <!-- <div
+  style="
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px;
+    padding: 10px;
+  "
+> -->
+  @if (elems().length) { @for (elem of elems(); track elem.quest.id) {
+  <div style="border: 1px solid; padding: 15px; border-radius: 8px">
+    <div style="border: 1px solid; padding: 10px; border-radius: 6px">
+      <h2>Question</h2>
+      <h3>{{ elem.quest.question }}</h3>
+      <button class="btn" (click)="showQuestion(elem.quest)">Edit</button>
+    </div>
+    <div
+      style="
+        border: 1px solid;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 10px;
+      "
+    >
+      <h2>Answers</h2>
+
+      @for (answer of elem.answers; track answer.id) {
+      <div
+        style="
+          border: 1px solid;
+          padding: 10px;
+          border-radius: 6px;
+          margin-top: 10px;
+        "
+      >
+        <h3>
+          @if (answer.correct) { + } @else { - }
+          {{ answer.text }}
+        </h3>
+        <button class="btn" (click)="showAnswer(answer)">Edit</button>
+        <button class="btn bg-error" (click)="showConfirm('answer', answer.id)">
+          Delete
+        </button>
+      </div>
+      }
+    </div>
+    <button class="btn" (click)="addAnswer(elem.quest)">Add answer</button>
+    <button
+      class="btn bg-error"
+      (click)="showConfirm('question', elem.quest.id)"
+    >
+      Delete element
+    </button>
+  </div>
+  }}
+</div>
+
+@if (info) {
+<app-quiz-info [formValue]="quizInfo()" (close)="closeInfo()"></app-quiz-info>}
+@if (question) {
+<app-quiz-question
+  [formValue]="quizQuestion()"
+  (close)="closeQuestion()"
+></app-quiz-question>
+} @if (answer) {
+<app-quiz-answer
+  [formValue]="quizAnswer()"
+  (close)="closeAnswer()"
+></app-quiz-answer>
+} @if (isConfirm) {<app-confirm-action
+  (close)="closeConfirm()"
+  (confirm)="deleteElem()"
+  [text]="'deleting'"
+></app-confirm-action
+>}

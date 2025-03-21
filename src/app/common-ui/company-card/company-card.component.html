@@ -1,0 +1,73 @@
+@if(company) {
+<div class="company-card">
+  <div style="display: flex; justify-content: space-between">
+    <h2>{{ company.title }}</h2>
+    @if (!company.visibility) {<strong style="color: var(--primary-color)"
+      >Invisible</strong
+    >}
+  </div>
+  <div class="company-card__description">
+    <strong>{{ company.description }}</strong>
+  </div>
+  <div class="owner-info">
+    @if (company.owner.avatar) {
+    <img [src]="company.owner.avatar" alt="avatar" class="avatar" />
+    } @else {
+    <img src="assets/images/avatar.png" alt="avatar" class="avatar" />
+    }
+    <div class="user-data">
+      <strong>Owner:</strong>
+      <strong>{{ company.owner.name }}</strong>
+    </div>
+  </div>
+  <strong>Contacts: {{ company.owner.email }}</strong>
+  <nav>
+    <a routerLink="company_profile" (click)="getCompanyAndRoleAccess(company)"
+      ><button class="btn">{{ company.title }} profile</button></a
+    >
+
+    @if (company.owner.id !== currentUser().id) { @if (!company.action) {
+    <button class="btn" (click)="createAction(company, currentUser())">
+      Send join request
+    </button>
+
+    } @else {@if (!company.action.ownerVerdict && company.action.userVerdict) {
+    <button class="btn btn-hover" (click)="showCancel()">
+      Cancel join request
+    </button>
+
+    } @if (company.action.ownerVerdict && !company.action.userVerdict) {
+    <button class="btn btn-hover" (click)="acceptInvitation(company.action.id)">
+      Accept invitation
+    </button>
+    <button class="btn btn-hover" (click)="showDecline()">Decline</button>
+
+    } @if (company.action.ownerVerdict && company.action.userVerdict) {
+    <button class="btn" (click)="showConfirm()">Leave a company</button>
+
+    }} }@else {<button class="btn" (click)="showModal()">
+      Edit company info
+    </button>
+    <button class="btn bg-error">Delete company</button>}
+  </nav>
+</div>
+@if (isConfirm) {<app-confirm-action
+  (close)="closeConfirm()"
+  (confirm)="leaveCompany(company.action!.id)"
+  [text]="'leave company'"
+></app-confirm-action>
+} @if (isDecline) {<app-confirm-action
+  (close)="closeDecline()"
+  (confirm)="removeAction(company.action!.id)"
+  [text]="'decline company invitation'"
+></app-confirm-action>
+} @if (isCancel) {<app-confirm-action
+  (close)="closeCancel()"
+  (confirm)="removeAction(company.action!.id)"
+  [text]="'cancel request to join company'"
+></app-confirm-action>
+} @if (isVisible) {<app-edit-company
+  (close)="closeModal()"
+  [companyId]="company.action!.id"
+></app-edit-company>
+}}

@@ -1,0 +1,14 @@
+.quiz-card {
+  border: 1px solid var(--light-color);
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+}
+
+.quiz-card__description {
+  font-size: 20px;
+}

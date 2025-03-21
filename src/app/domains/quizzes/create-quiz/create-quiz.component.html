@@ -1,0 +1,122 @@
+<div style="padding: 30px; max-width: 650px">
+  <h1>New quiz</h1>
+  <h3>Quiz must have at least two questions</h3>
+  <h3>
+    Each question must have at least two answer options with correct answer
+  </h3>
+  <hr />
+</div>
+@if (!infoCreate) {
+<button class="menu-item" style="max-width: 300px" (click)="showInfo()">
+  Add quiz info
+</button>
+} @if (infoCreate && quizInfo().id) {
+<div style="display: flex; flex-direction: column; gap: 15px">
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 15px;
+      padding: 10px;
+    "
+  >
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        border: 1px solid;
+        padding: 15px;
+        border-radius: 8px;
+      "
+    >
+      <h2>Quiz info</h2>
+      <h3>title: {{ quizInfo().title }}</h3>
+      <h3>description: {{ quizInfo().description }}</h3>
+      <h3>
+        frecuency: {{ quizInfo().frequency }} @if ( quizInfo().frequency > 1)
+        {days} @else {day}
+      </h3>
+    </div>
+
+    @if (elems().length) { @for (elem of elems(); track elem.quest.id) {
+    <div style="border: 1px solid; padding: 15px; border-radius: 8px">
+      <div style="border: 1px solid; padding: 10px; border-radius: 6px">
+        <h2>Question</h2>
+        <h3>{{ elem.quest.question }}</h3>
+      </div>
+
+      <div
+        style="
+          border: 1px solid;
+          padding: 10px;
+          border-radius: 6px;
+          margin-top: 10px;
+        "
+      >
+        <h2>Answers</h2>
+
+        @for (answer of elem.answers; track answer.id) {
+        <h3>
+          @if(answer.correct) { + } @else { - }
+          {{ answer.text }}
+        </h3>
+        }
+      </div>
+    </div>
+    } }
+  </div>
+
+  @if (!confirmCreateButton) { @if (!quizQuestion().id ) {
+  <div style="display: flex">
+    <button class="menu-item" style="max-width: 300px" (click)="showQuestion()">
+      Add question
+    </button>
+    @if (elems().length >= minNumQuestions) {<button
+      class="menu-item"
+      style="max-width: 300px"
+      (click)="checkElements()"
+    >
+      No more questions</button
+    >}
+  </div>
+  } @else {
+  <h2>Question</h2>
+  <h3>{{ quizQuestion().question }}</h3>
+
+  @for (answer of quizAnswers(); track answer.id) {
+  <h3>
+    @if(answer.correct) { + } @else { - }
+    {{ answer.text }}
+  </h3>
+  }
+  <div style="display: flex">
+    <button class="menu-item" (click)="showAnswer()">Add answer</button>
+    @if (quizAnswers().length >= minNumAnswers) {
+    <button class="menu-item" (click)="checkAnswers()">No more answers</button>}
+  </div>
+  } }
+</div>
+}
+
+<div style="display: flex; margin: 50px 20px">
+  @if (confirmCreateButton) {<button
+    class="btn"
+    style="max-width: 350px"
+    (click)="confirmCreating(quizInfo().id)"
+  >
+    Confirm creating</button
+  >} @if (quizInfo().id) {
+  <button class="btn bg-error" style="max-width: 350px" (click)="showConfirm()">
+    Cancel creating</button
+  >}
+</div>
+@if (isConfirm) {<app-confirm-action
+  (close)="closeConfirm()"
+  (confirm)="cancel(quizInfo().id)"
+  [text]="'cancel creating quiz'"
+></app-confirm-action>
+} @if (info) {
+<app-quiz-info (close)="closeInfo()"></app-quiz-info> } @if (question) {
+<app-quiz-question (close)="closeQuestion()"></app-quiz-question> } @if (answer)
+{ <app-quiz-answer (close)="closeAnswer()"></app-quiz-answer> }

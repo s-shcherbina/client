@@ -1,11 +1,5 @@
 <div class="auth">
   <div class="auth-form">
-    @if(err().message){
-    <div class="error">
-      <h2>error status code: {{ err().statusCode }}</h2>
-      <h2>{{ err().message }}</h2>
-    </div>
-    }
     <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       <h2>Sign Up</h2>
       <div class="small-form">
@@ -18,16 +12,11 @@
             class="auth-input"
           />
         </label>
-        @if (registerForm.get('name')?.invalid &&
-        registerForm.get('name')?.touched) {
-        <div>
-          @if (registerForm.get('name')?.errors?.['required']) {
-          <small>Name is required.</small>
-          } @if (registerForm.get('name')?.errors?.['minlength']) {
-          <small>Minimum 2 characters required.</small>
-          }
-        </div>
-        }
+        @if(registerForm.get('name')?.errors?.['required']) {
+        <small>Name is required.</small>
+        } @if (registerForm.value.name) { @if
+        (registerForm.get('name')?.errors?.['minlength']) {
+        <small>Minimum 2 characters required.</small>}}
       </div>
 
       <div class="small-form">
@@ -40,16 +29,11 @@
             class="auth-input"
           />
         </label>
-        @if (registerForm.get('email')?.invalid &&
-        registerForm.get('email')?.touched) {
-        <div>
-          @if (registerForm.value.email) { @if
-          (registerForm.get('email')?.errors?.['required']) {
-          <small>Email is required.</small>
-          } @if (registerForm.get('email')?.errors?.['pattern']) {
-          <small>Please enter a valid email.</small>}}
-        </div>
-        }
+        @if(registerForm.get('email')?.errors?.['required']) {
+        <small>Email is required.</small>
+        } @if (registerForm.value.email) { @if
+        (registerForm.get('email')?.errors?.['pattern']) {
+        <small>Please enter a valid email.</small>}}
       </div>
 
       <div class="small-form">
@@ -62,25 +46,13 @@
             class="auth-input"
           />
         </label>
-        @if (registerForm.get('password')?.invalid &&
-        registerForm.get('name')?.touched) {
-        <div>
-          @if (registerForm.get('password')?.errors?.['required'] ) {
-          <div><small>Password is required.</small></div>
-          }
-        </div>
-        } @if (registerForm.value.password) { @if
-        (registerForm.get('password')?.errors?.['minlength']) {
-        <div><small>Minimum 4 characters required.</small></div>
-        } @if (registerForm.get('password')?.errors?.['hasUpperCase']) {
-        <div><small>Password needs at least 1 uppercase letter.</small></div>
-        } @if (registerForm.get('password')?.errors?.['hasLowerCase']) {
-        <div><small>Password needs at least 1 lowercase letter.</small></div>
-        } @if (registerForm.get('password')?.errors?.['hasNumericChar']) {
-        <div><small>Password needs at least 1 number.</small></div>
-        } @if (registerForm.get('password')?.errors?.['hasSpecialChar']) {
-        <div><small>Password needs at least 1 special character.</small></div>
-        }}
+
+        @if( registerForm.get('password')?.errors?.['required']) {
+        <small>Password is required.</small> } @if
+        (registerForm.value.password){ @for (item of passwordErrors; track item)
+        { @if (registerForm.get('password')?.errors?.[item.error]) {
+        <small>{{ item.message }}</small
+        >} }}
       </div>
 
       <div class="small-form">
@@ -94,13 +66,10 @@
           />
         </label>
         @if (registerForm.get('confirmPassword')?.invalid &&
-        registerForm.get('confirmPassword')?.touched ) {
-        <div>
-          @if (registerForm.get('confirmPassword')?.errors?.['mismatch']) {
-          <small>Passwords do not match.</small>
-          }
-        </div>
-        }
+        registerForm.get('confirmPassword')?.touched ) { @if
+        (registerForm.get('confirmPassword')?.errors?.['mismatch']) {
+        <small>Passwords do not match.</small>
+        } }
       </div>
       <button type="submit" class="btn btn-shadow">Sign Up</button>
     </form>

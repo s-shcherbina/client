@@ -13,7 +13,7 @@
       <li>
         <a routerLink="/about" class="menu-item">About</a>
       </li>
-      @if (currentUser().detail && currentUser().detail.email) {
+      @if (currentUser() && currentUser().email) {
       <li>
         <a routerLink="/users/user_list" class="menu-item" (click)="getUsers()"
           >Users</a
@@ -21,25 +21,33 @@
       </li>
 
       <li>
-        <a routerLink="/companies/company_list" class="menu-item">Companies</a>
+        <a
+          routerLink="/companies/company_list"
+          class="menu-item"
+          (click)="getAllCompanies()"
+          >Companies</a
+        >
       </li>
       }
     </ul>
     <ul class="menu">
-      @if (currentUser().detail && currentUser().detail.email) { @if
-      (currentUser().detail.avatar) {
-      <img [src]="currentUser().detail.avatar" alt="avatar" class="avatar" />
-      } @else {
-      <img src="assets/images/avatar.png" alt="avatar" width="50px" />
-      }
-      <div class="user-data">
-        <p>{{ currentUser().detail.name }}</p>
-        <p>{{ currentUser().detail.email }}</p>
+      @if (currentUser() && currentUser().email) {
+      <div class="menu edit" (click)="showModal()">
+        @if (currentUser().avatar) {
+        <img [src]="currentUser().avatar" alt="avatar" class="avatar" />
+        } @else {
+        <img src="assets/images/avatar.png" alt="avatar" width="50px" />
+        }
+        <div class="user-data">
+          <strong>{{ currentUser().name }}</strong>
+          <strong>{{ currentUser().email }}</strong>
+        </div>
       </div>
+
       <li>
         <a routerLink="/" class="menu-item" (click)="logout()">Log out</a>
       </li>
-      } @if (!(currentUser().detail && currentUser().detail.email)) {
+      } @if (!(currentUser() && currentUser().email)) {
       <li>
         <a routerLink="/auth/sign_in" class="menu-item" (click)="signIn()"
           >Sign in</a
@@ -48,4 +56,9 @@
       }
     </ul>
   </nav>
+  @if (isVisible) {<app-simple-modal
+    [user]="currentUser()"
+    (close)="closeModal()"
+  ></app-simple-modal
+  >}
 </header>

@@ -1,1 +1,17 @@
-<p>company-list works!</p>
+<div class="header">
+  <button class="btn" (click)="showModal()">Create company</button>
+  <button class="btn" (click)="getMyCompanies()">My companies</button>
+  <button class="btn" (click)="getInvitations()">
+    Invitations to companies
+  </button>
+  <button class="btn" (click)="getRequests()">Membership requests</button>
+</div>
+
+<div class="company-list">
+  @if (companiesWithActions()) { @for (company of companiesWithActions(); track
+  $index) {
+  <app-company-card [company]="company"></app-company-card>
+  }}
+</div>
+@if (isVisible) {<app-create-company (close)="closeModal()"></app-create-company
+>}

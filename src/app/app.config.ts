@@ -4,7 +4,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
 import { provideAuth0 } from '@auth0/auth0-angular';
-import { environment } from '../environtments/environtment';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +19,6 @@ export const appConfig: ApplicationConfig = {
         scope: 'profile email',
       },
     }),
+    provideHotToastConfig(),
   ],
 };

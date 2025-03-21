@@ -1,9 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { IUserInfo, IUsersResponse } from '../../../shared/interfaces/index';
 import { UsersService } from '../../../shared/services/users/users.service';
 import { UserCardComponent } from '../../../common-ui/user-card/user-card.component';
-import { AuthService } from '../../../shared/services/auth/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -12,17 +9,6 @@ import { Router } from '@angular/router';
   styleUrl: './users-list.component.scss',
 })
 export class UserListComponent {
-  public authService = inject(AuthService);
   public usersService = inject(UsersService);
-  public router: Router = inject(Router);
-
-  public users = signal([] as IUserInfo[]);
-  public usersList = this.users();
-
-  public ngOnInit() {
-    if (this.authService.isAuth())
-      this.usersService.getUsers().subscribe((val) => {
-        this.users.set(val.detail as IUserInfo[]);
-      });
-  }
+  public users = this.usersService.users;
 }

@@ -1,0 +1,45 @@
+<div class="modal-overlay" (click)="$event.stopPropagation()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="close-btn__container">
+      <button class="close-btn close-primary" (click)="closeAnswer()">X</button>
+    </div>
+    <h1>Quiz answer</h1>
+    <h3>(mark the correct answer)</h3>
+    <div class="form-container">
+      <form
+        class="auth-form w100"
+        [formGroup]="answerForm"
+        (ngSubmit)="onAnswerSubmit($event)"
+      >
+        <div style="display: flex; gap: 10px">
+          <label class="control-label">
+            Correct
+            <input
+              formControlName="correct"
+              type="checkbox"
+              class="checkbox-size"
+            />
+          </label>
+          <div class="small-form">
+            <label class="control-label"
+              >Answer
+              <input
+                formControlName="text"
+                type="text"
+                placeholder="Enter answer"
+                size="10"
+                oninput="this.size=Math.max(this.value.length, 10)"
+                class="quiz-input"
+              />
+            </label>
+            @if (answerForm.get('text')?.errors?.['required']) {
+            <small>Answer is required</small>} @if (answerForm.value.text) { @if
+            (answerForm.get('text')?.errors?.['minlength']) {
+            <small>Minimum 2 characters required.</small>}}
+          </div>
+        </div>
+        <button class="btn" style="width: 300px">Confirm</button>
+      </form>
+    </div>
+  </div>
+</div>

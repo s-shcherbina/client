@@ -1,0 +1,49 @@
+.company-profile__header {
+  position: sticky;
+  top: 70px;
+  z-index: 2;
+  display: flex;
+  background: var(--dark-color);
+}
+
+.company-profile__container {
+  display: flex;
+  flex-direction: column;
+  padding: 50px;
+  gap: 20px;
+  max-width: 700px;
+  overflow: auto;
+}
+.company-profile__news {
+  font-size: 18px;
+}
+
+.bg-error {
+  background-color: var((--error-color));
+}
+
+.close-btn__container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -20px;
+  padding: 20px;
+}
+
+.close-btn {
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  padding: 5px;
+  color: var(--light-color);
+  font-size: 20px;
+  &:hover {
+    color: var(--primary-color);
+  }
+}
+
+.quiz-list {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+}
